@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Bitter"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://use.typekit.net/eyw0tok.css" />
+    <link href="./favicon.png" rel="shortcut icon" />
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Bitter");
+      @import url("https://fonts.googleapis.com/css?family=Nunito");
+    </style>
+    <!-- <style type="text/css">
+      @font-face {
+        font-family: 'Bitter';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Bitter'), url(https://fonts.gstatic.com/s/Bitter/v3/6xKvdShfL9yK-rvpOmzRKV4KQOI.woff2) format('woff2');
+      }
+      </style>  -->
+    <style type="text/css">
+      @font-face {
+        font-family: "Bitter";
+        src: url(https://fonts.googleapis.com/css?family=Bitter) format("woff2"),
+          url(https://fonts.googleapis.com/css?family=Bitter) format("woff");
+      }
+      @font-face {
+        font-family: "Nunito";
+        src: url(https://fonts.googleapis.com/css?family=Nunito) format("woff2"),
+          url(https://fonts.googleapis.com/css?family=Nunito) format("woff");
+      }
+    </style>
+    <title>Hivemindd</title>
+  </head>
+  <body>
+    <div style="max-width: 100dvh">
+      <div
+        style="
+          background: transparent;
+          /* background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover; */
+          background-color: #e5e5e5;
+          text-align: -moz-left;
+          text-align: -webkit-left;
+        "
+      >
+        <div
+          style="
+            background: #ffffff 0% 0% no-repeat padding-box;
+            border-radius: 8px;
+            text-align: -moz-left;
+            text-align: -webkit-left;
+            padding: 20px 0;
+          "
+        >
+          <div
+            style="
+              position: relative;
+              padding: 10px 0;
+              border-bottom: 1px solid lightgray;
+              border-top: 1px solid lightgray;
+              background-color: #f2f3f5;
+              text-align: -moz-center;
+              text-align: -webkit-center;
+            "
+          >
+            <img src="https://dev.hivemindd.com/images/new-logo.png" alt="Hivemindd_Logo" style="width: 600px" />
+          </div>
+          <div style="padding-left: 20px; margin-top: 40px">
+            <p style="font-family: Arial, sans-serif">
+              Hello from Hivemindd!
+            </p>
+
+            <p style="font-family: Arial, sans-serif">
+              Error Events in the last hour have been detected. Please check
+            </p>
+            <p style="font-family: Arial, sans-serif; color: #555; font-size: 14px;">
+              Time Range: {{index .Data "from"}} to {{index .Data "to"}}
+            </p>
+
+            <ul style="list-style: none; padding: 0;">
+              {{range .List}}
+              <li style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                <span style="float: left; color: #999; margin-right: 20px;">{{.Timestamp}}</span>
+                <span style="color: #555;">
+                  <strong>Error:</strong> {{.Error}},
+                  <strong>Context:</strong> {{.ErrorContext}}
+                </span>
+              </li>
+              {{end}}
+            </ul>
+
+            <p style="font-family: Arial, sans-serif">Hivemindd Support Team</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px">
+        <div
+          style="
+            height: 145px;
+            border-bottom: 1px solid lightgray;
+            border-top: 1px solid lightgray;
+            text-align: center;
+            background-color: #f2f3f5;
+          "
+        >
+          <a href="https://www.hivemindd.com/"
+            ><img
+              src="https://dev.hivemindd.com/images/new-logo.png"
+              alt="Hivemindd_sub_logo"
+              style="margin-top: 35px; height: 54.8px; width: 180px"
+          /></a>
+          <h6
+            style="
+              font-weight: 700;
+              color: #000000;
+              text-align: center;
+              font-size: 16px;
+              line-height: 2;
+
+              font-family: Arial, sans-serif;
+              margin-top: 10px;
+            "
+          >
+            Copyright &copy; 2025 Hivemindd.
+          </h6>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Account Locked</title>
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #f6f6f6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    <table width="100%" bgcolor="#f6f6f6" cellpadding="0" cellspacing="0" style="padding: 20px 0;">
+      <tr>
+        <td align="center">
+          <table width="600" bgcolor="#ffffff" cellpadding="40" cellspacing="0" style="border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+            <tr>
+              <td align="left" style="padding-bottom: 0;">
+                <!-- Logo and brand -->
+                <table cellpadding="0" cellspacing="0" style="margin-bottom: 24px;">
+                  <tr>
+                    <td style="vertical-align: middle;">
+                      <img src="https://dev.hivemindd.com/Logo.png" alt="Hivemindd Logo" width="32" height="32" style="vertical-align: middle;" />
+                    </td>
+                    <td style="padding-left: 8px;">
+                      <h1 style="margin: 0; font-size: 32px; font-weight: 600; color: #000;">Hivemindd</h1>
+                    </td>
+                  </tr>
+                </table>
+
+                <!-- Title -->
+                <h2 style="font-size: 24px; margin: 0 0 24px 0; color: #000;">Account locked, was this you?</h2>
+
+                <!-- Message -->
+                <p style="font-size: 16px; color: #404040; margin: 0 0 24px 0;">
+                  Your account (<strong>{{.To}}</strong>) was locked after too many failed login attempts.
+                </p>
+
+                <!-- Info Table -->
+                <table cellpadding="8" cellspacing="0" style="width: 100%;margin-bottom: 32px; font-size: 15px; color: #000; border-collapse: collapse;">
+                  <tr>
+                    <td style="font-weight: 500; white-space: nowrap; color: #a3a3a3; padding: 12px 0;">Login request date</td>
+                    <td style="padding-left: 16px; padding: 12px 0;">{{index .Data "LoginRequestDate"}}</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: 500; white-space: nowrap; color: #a3a3a3; border-top: 1px solid #e5e5e5; padding: 12px 0;">Device</td>
+                    <td style="padding-left: 16px; border-top: 1px solid #e5e5e5; padding: 12px 0;">{{index .Data "Device"}}</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: 500; white-space: nowrap; color: #a3a3a3; border-top: 1px solid #e5e5e5; padding: 12px 0;">Location</td>
+                    <td style="padding-left: 16px; border-top: 1px solid #e5e5e5; padding: 12px 0;">{{index .Data "Location"}}</td>
+                  </tr>
+                </table>
+
+                <p style="font-size: 13px; color: #a3a3a3; margin: -20px 0 40px 0; text-align: center;">
+                  Location is approximate based on the IP address.
+                </p>
+
+                <!-- Button -->
+                <p style="margin: 0 0 32px 0;">
+                  <a href="{{.Url}}" style="display: inline-block; padding: 12px 24px; background-color: #000000; color: #ffffff; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 16px;">
+                    Reset Password
+                  </a>
+                </p>
+
+                <!-- Additional text -->
+                <p style="font-size: 16px; color: #404040; margin: 0 0 16px 0;">
+                  If this wasn’t you, let us know immediately so we can investigate the issue.
+                </p>
+
+                <!-- Footer -->
+                <p style="font-size: 16px; color: #404040; margin-top: 40px;">
+                  Thanks,<br />
+                  The Hivemindd Team
+                </p>
+
+                <hr style="border: none; height: 1px; background-color: #e5e5e5; margin: 40px 0;" />
+
+                <p style="font-size: 16px; color: #999999; margin-top: 20px;">
+                    © 2025 Hivemindd. All rights reserved.
+                  </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
