@@ -1,0 +1,87 @@
+name: Comm Service - Build, Push, and Update GitOps
+
+on:
+  push:
+    branches: [ staging ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: |
+            image=moby/buildkit:v0.12.0
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      # Authenticate to Google Cloud
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GH_SA_STAGE_KEY }}'
+
+      - name: Configure Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker us-east4-docker.pkg.dev
+
+      - name: Get short SHA
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Build Docker image
+        run: |
+          docker buildx build \
+            --cache-from type=local,src=/tmp/.buildx-cache \
+            --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max \
+            --build-arg GH_PAT=${{ secrets.GH_PAT }} \
+            --platform linux/amd64 \
+            --tag us-east4-docker.pkg.dev/stage-hivemindd/hivemindd-stage-repo/comm-service:${{ steps.vars.outputs.sha_short }} \
+            --load \
+            .
+        env:
+          DOCKER_BUILDKIT: 1
+
+      - name: Push Docker image
+        run: |
+          docker push us-east4-docker.pkg.dev/stage-hivemindd/hivemindd-stage-repo/comm-service:${{ steps.vars.outputs.sha_short }}
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+
+      - name: Checkout GitOps repo
+        uses: actions/checkout@v4
+        with:
+          repository: hivemindd/infrastructure.git
+          token: ${{ secrets.GH_PAT }}
+          ref: stage
+
+      - name: Update image tag in manifest
+        run: |
+          yq e '.spec.template.spec.containers[0].image = "us-east4-docker.pkg.dev/stage-hivemindd/hivemindd-stage-repo/comm-service:${{ steps.vars.outputs.sha_short }}"' -i local-dev/comm-service/helm/values.yaml
+          yq e '.image.repository = "us-east4-docker.pkg.dev/stage-hivemindd/hivemindd-stage-repo/comm-service"' -i local-dev/comm-service/helm/values.yaml
+          yq e '.image.tag = "${{ steps.vars.outputs.sha_short }}"' -i local-dev/comm-service/helm/values.yaml
+
+      - name: Commit and push to GitOps repo
+        run: |
+          cd local-dev/comm-service/helm
+          git config user.name "HiveMindd CI Bot"
+          git config user.email "sathisha.b@hivemindd.com"
+          git add values.yaml
+          git commit -m "Deploy comm-service:${{ steps.vars.outputs.sha_short }}"
+          git push 
